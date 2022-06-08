@@ -961,7 +961,9 @@
 							"examples": [
 								"origins:and", "origins:constant", "origins:or",
 								"origins:amount", "origins:attacker", "origins:fire", "origins:name",
-								"origins:projectile"
+								"origins:projectile",
+
+								"origins:bypasses_armor", "origins:explosive", "origins:from_falling", "origins:unblockable", "origins:out_of_world"
 							]
 						},
 						"inverted": {
@@ -2380,7 +2382,9 @@
 							"examples": [
 								"origins:and", "origins:constant", "origins:or",
 								"origins:amount", "origins:armor_value", "origins:empty", "origins:enchantment", "origins:fireproof",
-								"origins:food", "origins:harvest_level", "origins:ingredient", "origins:meat", "origins:nbt", "origins:smeltable"
+								"origins:food", "origins:harvest_level", "origins:ingredient", "origins:meat", "origins:nbt", "origins:smeltable",
+
+								"origins:is_damageable", "origins:durability", "origins:relative_durability", "origins:is_equippable"
 							]
 						},
 						"inverted": {
@@ -2584,7 +2588,9 @@
 								"origins:and", "origins:chance", "origins:choice", "origins:delay", "origins:if_else_list", "origins:if_else",
 								"origins:nothing",
 								"origins:actor_action", "origins:invert", "origins:target_action",
-								"origins:add_velocity", "origins:damage", "origins:mount", "origins:set_in_love", "origins:tame"
+								"origins:add_velocity", "origins:damage", "origins:mount", "origins:set_in_love", "origins:tame",
+								
+								"origins:side"
 							]
 						}
 					},
@@ -2861,7 +2867,9 @@
 								"origins:if_else_list", "origins:if_else", "origins:nothing",
 								"origins:offset",
 								"origins:add_block", "origins:bonemeal", "origins:execute_command",
-								"origins:explode", "origins:modify_block_state", "origins:set_block"
+								"origins:explode", "origins:modify_block_state", "origins:set_block",
+								
+								"origins:side"
 							]
 						}
 					},
@@ -3201,7 +3209,12 @@
 								"origins:grant_power", "origins:heal", "origins:passenger_action", "origins:play_sound", "origins:raycast",
 								"origins:revoke_power", "origins:riding_action", "origins:set_fall_distance", "origins:set_on_fire",
 								"origins:spawn_effect_cloud", "origins:spawn_entity", "origins:spawn_particles", "origins:swing_hand",
-								"origins:toggle", "origins:trigger_cooldown"
+								"origins:toggle", "origins:trigger_cooldown",
+
+								"origins:modify_death_ticks", "origins:modify_inventory", "origins:replace_inventory", "origins:drop_inventory",
+								"origins:modify_stat", "origins:modify_resource",
+								
+								"origins:side"
 							]
 						}
 					},
@@ -4144,7 +4157,11 @@
 							"examples": [
 								"origins:and", "origins:chance", "origins:choice", "origins:delay",
 								"origins:if_else_list", "origins:if_else", "origins:nothing",
-								"origins:consume", "origins:damage", "origins:modify"
+								"origins:consume", "origins:damage", "origins:modify",
+
+								"origins:merge_nbt", "origins:remove_enchantment",
+
+								"origins:side"
 							]
 						}
 					},
