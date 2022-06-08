@@ -4956,7 +4956,7 @@
 					},
 					"hud_render": {"$ref": "#/definitions/origins_data_types/properties/hud_render"}
 				},
-				"required": ["cooldown", "hud_render"]
+				"required": ["cooldown"]
 			}
 		},
 		{
@@ -4970,7 +4970,8 @@
 					"interval": {
 						"type": "integer",
 						"description": "Duration of ticks to wait between the damage.",
-						"minimum": 0
+						"minimum": 0,
+						"default": 20
 					},
 					"onset_delay": {
 						"type": "integer",
@@ -4997,7 +4998,7 @@
 						"default": 1.0
 					}
 				},
-				"required": ["interval", "damage"]
+				"required": ["damage"]
 			}
 		},
 		{
@@ -5147,7 +5148,8 @@
 					"cooldown": {
 						"type": "integer",
 						"description": "Interval of ticks this power needs to recharge before the power can be triggered again.",
-						"minimum": 1
+						"minimum": 1,
+						"default": 1
 					},
 					"hud_render": {"$ref": "#/definitions/origins_data_types/properties/hud_render"},
 					"count": {
@@ -5192,7 +5194,7 @@
 						"default": {"key": "key.origins.primary_active"}
 					}
 				},
-				"required": ["entity_type", "cooldown", "hud_render"]
+				"required": ["entity_type"]
 			}
 		},
 		{
@@ -5336,7 +5338,8 @@
 					"cooldown": {
 						"type": "integer",
 						"description": "Interval of ticks this power needs to recharge before the power can be triggered again.",
-						"minimum": 1
+						"minimum": 1,
+						"default": 1
 					},
 					"speed": {
 						"type": "number",
@@ -5354,7 +5357,7 @@
 						"default": {"key": "key.origins.primary_active"}
 					}
 				},
-				"required": ["cooldown", "speed", "hud_render"]
+				"required": ["speed"]
 			}
 		},
 		{
@@ -5614,7 +5617,7 @@
 						"description": "If set, this action will be executed on the player whenever the maximum value is reached."
 					}
 				},
-				"required": ["min", "max", "hud_render"]
+				"required": ["min", "max"]
 			}
 		},
 		{
@@ -6223,7 +6226,8 @@
 					"interval": {
 						"type": "integer",
 						"description": "Interval of ticks between subsequent executions of the specified actions.\nMust be a value of at least 1.",
-						"minimum": 1
+						"minimum": 1,
+						"default": 20
 					},
 					"entity_action": {
 						"$ref": "#/definitions/actions/properties/entity_action",
@@ -6238,7 +6242,6 @@
 						"description": "The action to execute on the first interval tick in which the condition became false."
 					}
 				},
-				"required": ["interval"],
 				"anyOf": [
 					{"required": ["entity_action"]},
 					{"required": ["rising_action"]},
@@ -6375,7 +6378,7 @@
 						"description": "If specified, determines how the cooldown of this power is visualized on the HUD."
 					}
 				},
-				"required": ["entity_action", "cooldown"]
+				"required": ["entity_action"]
 			}
 		},
 		{
