@@ -16,8 +16,8 @@
 				"origins:entity_group", "origins:exhaust", "origins:fire_immunity", "origins:fire_projectile", "origins:freeze",
 				"origins:ignore_water", "origins:inventory", "origins:invisibility", "origins:invulnerability", "origins:item_on_item",
 				"origins:keep_inventory", "origins:launch", "origins:lava_vision", "origins:model_color", "origins:multiple",
-				"origins:night_vision", "origins:overlay", "origins:particle", "origins:phasing", "origins:recipe", "origins:resource",
-				"origins:restrict_armor", "origins:self_glow", "origins:shader", "origins:shaking", "origins:simple",
+				"origins:night_vision", "origins:overlay", "origins:particle", "origins:phasing", "origins:recipe", "origins:replace_loot_table",
+				"origins:resource", "origins:restrict_armor", "origins:self_glow", "origins:shader", "origins:shaking", "origins:simple",
 				"origins:stacking_status_effect", "origins:starting_equipment", "origins:status_bar_texture", "origins:swimming",
 				"origins:toggle_night_vision", "origins:toggle", "origins:tooltip", "origins:walk_on_fluid",
 
@@ -27,19 +27,17 @@
 				"origins:active_self", "origins:attacker_action_when_hit", "origins:self_action_on_hit", "origins:self_action_on_kill",
 				"origins:self_action_when_hit", "origins:target_action_on_hit",
 
-				"origins:modify_air_speed", "origins:modify_block_render", "origins:modify_break_speed", "origins:modify_camera_submersion",
-				"origins:modify_crafting", "origins:modify_damage_dealt", "origins:modify_damage_taken", "origins:modify_exhaustion",
-				"origins:modify_falling", "origins:modify_fluid_render", "origins:modify_food", "origins:modify_harvest", "origins:modify_jump",
-				"origins:modify_lava_speed", "origins:modify_player_spawn", "origins:modify_projectile_damage", "origins:modify_slipperiness",
-				"origins:modify_status_effect_amplifier", "origins:modify_status_effect_duration", "origins:modify_swim_speed",
-				"origins:modify_xp_gain",
+				"origins:modify_air_speed", "origins:modify_attribute", "origins:modify_block_render", "origins:modify_break_speed",
+				"origins:modify_camera_submersion", "origins:modify_crafting", "origins:modify_damage_dealt", "origins:modify_damage_taken",
+				"origins:modify_exhaustion", "origins:modify_falling", "origins:modify_fluid_render", "origins:modify_food",
+				"origins:modify_grindstone", "origins:modify_harvest", "origins:modify_healing", "origins:modify_insomnia_ticks",
+				"origins:modify_jump", "origins:modify_lava_speed", "origins:modify_player_spawn", "origins:modify_projectile_damage",
+				"origins:modify_slipperiness", "origins:modify_status_effect_amplifier", "origins:modify_status_effect_duration",
+				"origins:modify_swim_speed", "origins:modify_velocity", "origins:modify_xp_gain",
 
 				"origins:prevent_being_used", "origins:prevent_block_selection", "origins:prevent_block_use", "origins:prevent_death",
 				"origins:prevent_elytra_flight", "origins:prevent_entity_collision", "origins:prevent_entity_render", "origins:prevent_entity_use",
-				"origins:prevent_feature_render", "origins:prevent_game_event", "origins:prevent_item_use", "origins:prevent_sleep",
-
-				"origins:modify_attribute", "origins:prevent_sprinting", "origins:modify_healing", "origins:modify_insomnia_ticks",
-				"origins:modify_grindstone", "origins:replace_loot_table", "origins:modify_velocity"
+				"origins:prevent_feature_render", "origins:prevent_game_event", "origins:prevent_item_use", "origins:prevent_sleep", "origins:prevent_sprinting"
 			]
 		},
 		"name": {
@@ -5609,6 +5607,44 @@
 		},
 		{
 			"if": {
+				"properties": { "type": {"const":"origins:replace_loot_table"} },
+				"required": ["type"],
+				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/replace_loot_table/"
+			},
+			"then": {
+				"properties": {
+					"replace": {
+						"type":"object",
+						"additionalProperties": {
+							"type":"string"
+						},
+						"minProperties": 1,
+						"description": "An object with `\"key\": \"value\"` pairs that determine which loot table (`\"key\"`) will be replaced with a new loot table (`\"value\"`).\nThe keys are formatted as a regular expression, where matching loot table namespace, path and IDs will be replaced with the specified value. See https://en.wikipedia.org/wiki/Regular_expression for more information about regular expressions and https://regexr.com/ to test regular expressions online.",
+						"examples": [{"([a-z|0-9|\\-|_]).*:blocks\/((?!diamond).*)_ore": "example:double_drops"},{"minecraft:entities/creeper": "example:entities/custom_creeper_loot"}]
+					},
+					"bientity_condition": {
+						"$ref": "#/definitions/conditions/properties/bientity_condition",
+						"description": "If specified, the loot tables will only be replaced if this condition is fulfilled by either or both 'actor' and 'target' entities.\nThe 'actor' entity is the entity that has the power while the 'target' entity depends on the context of the loot tables that'll be replaced.\n\nBarter\t\tThe Piglin that was bartered with.\nBlock\t\tThe 'actor' entity that mined the block.\nChest\t\tThe 'actor' entity that opened the Chest.\nEntity\t\tThe entity that died.\nFishing\t\tThe 'actor' entity's fishing bobber."
+					},
+					"block_condition": {
+						"$ref": "#/definitions/conditions/properties/block_condition",
+						"description": "If specified, the loot tables will only be replaced if the block at the context of the loot tables fulfill this condition."
+					},
+					"item_condition": {
+						"$ref": "#/definitions/conditions/properties/item_condition",
+						"description": "If specified, the loot tables will only be replaced if the item in the context of the loot tables fulfill this condition."
+					},
+					"priority": {
+						"type":"integer",
+						"default":0,
+						"description": "Determines the application priority of the power."
+					}
+				},
+				"required": ["replace"]
+			}
+		},
+		{
+			"if": {
 				"properties": { "type": {"const":"origins:resource"} },
 				"required": ["type"],
 				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/resource/"
@@ -6530,6 +6566,46 @@
 		},
 		{
 			"if": {
+				"properties": { "type": {"const":"origins:modify_attribute"} },
+				"required": ["type"],
+				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_attribute/"
+			},
+			"then": {
+				"properties": {
+					"attribute": {
+						"type": "string",
+						"pattern": "^[a-z0-9\\-_\\.]+:[a-z0-9\\-_\\./]+$",
+						"description": "The namespace and ID of the attribute to apply the modifier(s) to.\nRefer to https://minecraft.fandom.com/wiki/Attribute for a list of vanilla attributes that you can modify.",
+						"examples": [
+							"minecraft:generic.max_health", "minecraft:generic.follow_range",
+							"minecraft:generic.knockback_resistance", "minecraft:generic.movement_speed",
+							"minecraft:generic.attack_damage", "minecraft:generic.armor",
+							"minecraft:generic.armor_toughness", "minecraft:generic.attack_knockback",
+							"minecraft:generic.attack_speed", "minecraft:generic.luck",
+							"minecraft:horse.jump_strength",
+							"minecraft:generic.flying_speed",
+							"minecraft:zombie.spawn_reinforcements"
+						]
+					},
+					"modifier": {
+						"$ref": "#/definitions/origins_data_types/properties/modifier",
+						"description": "If specified, this modifier will be applied to the specified attribute."
+					},
+					"modifiers": {
+						"type": "array",
+						"description": "If specified, these modifiers will be applied to the specified attribute.",
+						"items": {"$ref": "#/definitions/origins_data_types/properties/modifier"},
+						"minItems": 2
+					}
+				},
+				"oneOf": [
+					{"required": ["modifier"]},
+					{"required": ["modifiers"]}
+				]
+			}
+		},
+		{
+			"if": {
 				"properties": { "type": {"const":"origins:modify_block_render"} },
 				"required": ["type"],
 				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_block_render/"
@@ -6862,6 +6938,59 @@
 		},
 		{
 			"if": {
+				"properties": { "type": {"const":"origins:modify_grindstone"} },
+				"required": ["type"],
+				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_grindstone/"
+			},
+			"then": {
+				"properties": {
+					"result_type": {
+						"type":"string",
+						"enum": ["unchanged", "specified", "from_top", "from_bottom"],
+						"default": "unchanged",
+						"description": "Determines whether to not change the initial item stack (`\"unchanged\"`), replace it with the item stack specified in the result_stack field (`\"specified\"`), replace it with the item stack from the top input slot of a Grindstone block (`\"from_top\"`) or replace it with the item stack from the bottom input slot of a Grindstone block (`\"from_bottom\"`)."
+					},
+					"entity_action": {
+						"$ref": "#/definitions/actions/properties/entity_action",
+						"description": "If specified, this action will be executed on the player upon taking the item stack from the result slot of a Grindstone."
+					},
+					"block_action": {
+						"$ref": "#/definitions/actions/properties/block_action",
+						"description": "If specified, this action will be executed on the Grindstone block upon taking the item stack from the result slot of the said Grindstone block."
+					},
+					"item_action": {
+						"$ref": "#/definitions/actions/properties/item_action",
+						"description": "If specified, this action will be executed on the result item stack."
+					},
+					"item_action_after_grinding": {
+						"$ref": "#/definitions/actions/properties/item_action",
+						"description": "If specified, this action will be executed on the result item stack *after* the grinding process."
+					},
+					"top_condition": {
+						"$ref": "#/definitions/conditions/properties/item_condition",
+						"description": "If specified, the specified actions will only be executed if the item stack from the top input slot of the Grindstone fulfills this condition."
+					},
+					"bottom_condition": {
+						"$ref": "#/definitions/conditions/properties/item_condition",
+						"description": "If specified, the specified actions will only be executed if the item stack from the bottom input slot of the Grindstone fulfills this condition."
+					},
+					"output_condition": {
+						"$ref": "#/definitions/conditions/properties/item_condition",
+						"description": "If specified, the specified actions will only be executed if the item stack from the output/result slot of the Grindstone fulfills this condition."
+					},
+					"result_stack": {
+						"$ref": "#/definitions/origins_data_types/properties/item_stack",
+						"description": "If specified, this item stack will be used as a replacement only if the `result_type` field has a value of `\"specified\"`."
+					},
+					"xp_modifier": {
+						"$ref": "#/definitions/origins_data_types/properties/modifier",
+						"description": "If specified, this modifier will be applied to the value of the experience received from removing an enchantment from an item stack."
+					}
+				}
+			}
+		},
+		{
+			"if": {
 				"properties": { "type": {"const":"origins:modify_harvest"} },
 				"required": ["type"],
 				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_harvest/"
@@ -6878,6 +7007,56 @@
 					}
 				},
 				"required": ["allow"]
+			}
+		},
+		{
+			"if": {
+				"properties": { "type": {"const":"origins:modify_healing"} },
+				"required": ["type"],
+				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_healing/"
+			},
+			"then": {
+				"properties": {
+					"modifier": {
+						"$ref": "#/definitions/origins_data_types/properties/modifier",
+						"description": "If specified, this modifier will be applied to your healing bonus."
+					},
+					"modifiers": {
+						"type": "array",
+						"description": "If specified, these modifiers will be applied to your healing bonus.",
+						"items": {"$ref": "#/definitions/origins_data_types/properties/modifier"},
+						"minItems": 1
+					}
+				},
+				"oneOf": [
+					{"required": ["modifier"]},
+					{"required": ["modifiers"]}
+				]
+			}
+		},
+		{
+			"if": {
+				"properties": { "type": {"const":"origins:modify_insomnia_ticks"} },
+				"required": ["type"],
+				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_insomnia_ticks/"
+			},
+			"then": {
+				"properties": {
+					"modifier": {
+						"$ref": "#/definitions/origins_data_types/properties/modifier",
+						"description": "If specified, this modifier will be applied to the value."
+					},
+					"modifiers": {
+						"type": "array",
+						"description": "If specified, these modifiers will be applied to the value.",
+						"items": {"$ref": "#/definitions/origins_data_types/properties/modifier"},
+						"minItems": 1
+					}
+				},
+				"oneOf": [
+					{"required": ["modifier"]},
+					{"required": ["modifiers"]}
+				]
 			}
 		},
 		{
@@ -7094,6 +7273,39 @@
 					"modifiers": {
 						"type": "array",
 						"description": "If specified, these modifiers will apply to the swim speed.",
+						"items": {"$ref": "#/definitions/origins_data_types/properties/modifier"},
+						"minItems": 1
+					}
+				},
+				"oneOf": [
+					{"required": ["modifier"]},
+					{"required": ["modifiers"]}
+				]
+			}
+		},
+		{
+			"if": {
+				"properties": { "type": {"const":"origins:modify_velocity"} },
+				"required": ["type"],
+				"$comment": "https://origins.readthedocs.io/en/latest/types/power_types/modify_velocity/"
+			},
+			"then": {
+				"properties": {
+					"axes": {
+						"type":"array",
+						"items": {"enum": ["x","y","z"]},
+						"minItems": 1,
+						"uniqueItems": true,
+						"default": ["x","y","z"],
+						"description": "Used to specify the axes affected by this modifier."
+					},
+					"modifier": {
+						"$ref": "#/definitions/origins_data_types/properties/modifier",
+						"description": "If specified, this modifier will apply to velocity in the specified axes."
+					},
+					"modifiers": {
+						"type": "array",
+						"description": "If specified, these modifiers will apply to the specified axes.",
 						"items": {"$ref": "#/definitions/origins_data_types/properties/modifier"},
 						"minItems": 1
 					}
