@@ -4344,7 +4344,7 @@
 		"origins_data_types": {
 			"type": "object",
 			"description": "Group for https://origins.readthedocs.io/en/latest/data_types/",
-			"$comment": "As Comparison and Modifier Operation are basicaly just enum's and badges are only used once they are not included in this list.",
+			"$comment": "As Comparison and Modifier Operation are basically just enum's and badges are only used once they are not included in this list.",
 			"properties": {
 				"modifier": {
 					"type": "object",
@@ -4352,7 +4352,7 @@
 					"properties": {
 						"operation": {
 							"description": "The operation which will be performed by this modifier.",
-							"enum": ["addition", "multiply_base", "multiply_total"]
+							"enum": ["add_base_early", "multiply_base_additive", "multiply_base_multiplicative", "add_base_late", "min_base", "max_base", "set_base", "multiply_total_additive", "multiply_total_multiplicative", "min_total", "max_total", "set_total"]
 						},
 						"value": {
 							"type": "number",
@@ -5042,6 +5042,11 @@
 							"examples": ["minecraft:weakness", "minecraft:strength"]
 						},
 						"minItems": 2
+					},
+					"inverted": {
+						"type":"boolean",
+						"default":false,
+						"description": "Determines whether to make the entity immune to the status effect(s) that aren't specified."
 					}
 				},
 				"oneOf": [
@@ -6690,17 +6695,13 @@
 						"pattern": "^[a-z0-9\\-_\\.]+:[a-z0-9\\-_\\./]+$",
 						"description": "If specified, modifies the result item of the recipe that matches the specified namespace and ID.\nThis power type cannot modify the result item from recipes added by the Recipe Power Type."
 					},
-					"item_condition": {
-						"$ref": "#/definitions/conditions/properties/item_condition",
-						"description": "If specified, the item from the `result` field and the specified actions will only be applied if this condition is fulfilled by the result item of a recipe."
-					},
-					"result": {
-						"$ref": "#/definitions/origins_data_types/properties/item_stack",
-						"description": "If specified, this item will replace the item of a recipe."
-					},
 					"item_action": {
 						"$ref": "#/definitions/actions/properties/item_action",
 						"description": "If specified, this action will be executed on the result item of a recipe."
+					},
+					"item_action_after_crafting": {
+						"$ref": "#/definitions/actions/properties/item_action",
+						"description": "If specified, this action will be executed on the result item of a recipe after crafting the said recipe."
 					},
 					"entity_action": {
 						"$ref": "#/definitions/actions/properties/entity_action",
@@ -6709,6 +6710,14 @@
 					"block_action": {
 						"$ref": "#/definitions/actions/properties/block_action",
 						"description": "If specified, this action will be executed on the block used for crafting a recipe."
+					},
+					"item_condition": {
+						"$ref": "#/definitions/conditions/properties/item_condition",
+						"description": "If specified, the item from the `result` field and the specified actions will only be applied if this condition is fulfilled by the result item of a recipe."
+					},
+					"result": {
+						"$ref": "#/definitions/origins_data_types/properties/item_stack",
+						"description": "If specified, this item will replace the item of a recipe."
 					}
 				}
 			}
@@ -7248,14 +7257,30 @@
 					"status_effect": {
 						"type":"string",
 						"pattern": "^[a-z0-9\\-_\\.]+:[a-z0-9\\-_\\./]+$",
-						"description": "The namespace and ID of the status effect that will have its amplifier/duration modified.\nIf not specified modifier applies to all effects."
+						"description": "If specified, only this status effect will have its amplifier/duration modified upon being received."
+					},
+					"status_effects": {
+						"type":"array",
+						"items": {
+							"type":"string",
+							"pattern": "^[a-z0-9\\-_\\.]+:[a-z0-9\\-_\\./]+$"
+						},
+						"description": "If specified, only these status effects will have its amplifier/duration modified upon being received."
 					},
 					"modifier": {
 						"$ref": "#/definitions/origins_data_types/properties/modifier",
-						"description": "The modifier to apply to the amplifier/duration of the specified status effect."
+						"description": "If specified, this modifier will be applied to the amplifier/duration of the specified status effect(s)."
+					},
+					"modifiers": {
+						"type":"array",
+						"items": {"$ref": "#/definitions/origins_data_types/properties/modifier"},
+						"description": "If specified, these modifiers will be applied to the amplifier/duration of the specified status effect(s)."
 					}
 				},
-				"required": ["modifier"]
+				"oneOf": [
+					{"required": ["modifier"]},
+					{"required": ["modifiers"]}
+				]
 			}
 		},
 		{
