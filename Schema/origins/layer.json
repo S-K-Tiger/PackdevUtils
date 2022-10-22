@@ -2124,7 +2124,7 @@
 								"properties": {
 									"objective": {
 										"type": "string",
-										"description": "The name of the scoreboard objective to retrieve the value from and compare.\nDue to the nature of scoreboards, this condition is only effective on the server-side.\nIf the entity does not have the scoreboard objective, this condition returns false; ingoring of the values of \"comparison\" and \"compare_to\"."
+										"description": "The name of the scoreboard objective to retrieve the value from and compare.\nDue to the nature of scoreboards, this condition is only effective on the server-side.\nIf the entity does not have the scoreboard objective, this condition returns false; ignoring of the values of \"comparison\" and \"compare_to\"."
 									},
 									"comparison": {
 										"description": "How to compare the objective's value to the specified value.",
@@ -2154,13 +2154,13 @@
 									},
 									"min_amplifier": {
 										"type": "integer",
-										"description": "The minimum amplifier the status effect should have in order to pass the check.\nNote: As 0 is the default strenght; effects like 'Speed II' have an amplifier (or bonus if you will) of 1.",
+										"description": "The minimum amplifier the status effect should have in order to pass the check.\nNote: As 0 is the default strength; effects like 'Speed II' have an amplifier (or bonus if you will) of 1.",
 										"default": 0,
 										"maximum": 2147483647
 									},
 									"max_amplifier": {
 										"type": "integer",
-										"description": "The maximum amplifier the status effect should have in order to pass the check.\nNote: As 0 is the default strenght; effects like 'Speed II' have an amplifier (or bonus if you will) of 1.",
+										"description": "The maximum amplifier the status effect should have in order to pass the check.\nNote: As 0 is the default strength; effects like 'Speed II' have an amplifier (or bonus if you will) of 1.",
 										"default": 2147483647,
 										"maximum": 2147483647
 									},
@@ -2214,7 +2214,7 @@
 									},
 									"compare_to": {
 										"type": "integer",
-										"description": "The value to compare the current day time ticks of the world to.\nSee https://minecraft.fandom.com/wiki/Daylight_cycle#24-hour_Minecraft_day for how this value coresponds to the ingame",
+										"description": "The value to compare the current day time ticks of the world to.\nSee https://minecraft.fandom.com/wiki/Daylight_cycle#24-hour_Minecraft_day for how this value corresponds to the ingame time",
 										"minimum": 0,
 										"maximum": 24000
 									}
@@ -4366,7 +4366,7 @@
 		"origins_data_types": {
 			"type": "object",
 			"description": "Group for https://origins.readthedocs.io/en/latest/data_types/",
-			"$comment": "As Comparison and Modifier Operation are basicaly just enum's and badges are only used once they are not included in this list.",
+			"$comment": "As Comparison and Modifier Operation are basically just enum's and badges are only used once they are not included in this list.",
 			"properties": {
 				"modifier": {
 					"type": "object",
@@ -4438,12 +4438,10 @@
 									"minimum": 1
 								}
 							},
-							"required": ["item", "count"],
-							"additionalProperties": false
+							"required": ["item", "count"]
 						}
 					},
 					"required": ["type", "id", "result"],
-					"additionalProperties": false,
 					"allOf": [
 						{
 							"if": {
@@ -4471,7 +4469,7 @@
 							"then": {
 								"properties": {
 									"pattern": {
-										"$comment": "As some mods add crafting tables with larger than 3 by 3 grids I've not added a maxItems restiction",
+										"$comment": "As some mods add crafting tables with larger than 3 by 3 grids I've not added a maxItems restriction",
 										"type": "array",
 										"description": "Specifies the pattern, with each element representing one row. Use a single character to describe one item. A space means that position is empty.",
 										"items": {"type": "string"},
@@ -4482,7 +4480,6 @@
 										"patternProperties": {
 											"^[^\\ ]$": {"$ref": "#/definitions/origins_data_types/properties/ingredient"}
 										},
-										"additionalProperties": false,
 										"minProperties": 1
 									}
 								},
@@ -4548,8 +4545,7 @@
 							"default": false
 						}
 					},
-					"required": ["name"],
-					"additionalProperties": false
+					"required": ["name"]
 				},
 				"hud_render": {
 					"type": "object",
@@ -4626,7 +4622,6 @@
 							"description": "ID of an item tag.\nWill be ignored if item is set."
 						}
 					},
-					"additionalProperties": false,
 					"anyOf": [
 						{"required": ["item"]},
 						{"required": ["tag"]},
@@ -4655,8 +4650,7 @@
 							"pattern": "\\{.*\\:.*\\}"
 						}
 					},
-					"required": ["item"],
-					"additionalProperties": false
+					"required": ["item"]
 				},
 				"key": {
 					"type": "object",
@@ -4681,8 +4675,7 @@
 							"default": false
 						}
 					},
-					"required": ["key"],
-					"additionalProperties": false
+					"required": ["key"]
 				},
 				"particle_effect": {
 					"type": ["object", "string"],
@@ -4724,14 +4717,13 @@
 							"pattern": "\\{.*\\:.*\\}"
 						},
 						"slot": {
-							"$comment": "Because certian mods add inventory slots I've not specified a maximum",
+							"$comment": "Because certain mods add inventory slots I've not specified a maximum",
 							"type": "integer",
 							"description": "Inventory slot position of the stack.\nIf not specified, will be the first free slot in the inventory.\nSee https://origins.readthedocs.io/en/latest/misc/extras/positioned_item_stack_slots/ for possible values",
 							"minimum": 0
 						}
 					},
-					"required": ["item"],
-					"additionalProperties": false
+					"required": ["item"]
 				},
 				"status_effect_instance": {
 					"type": "object",
@@ -4769,8 +4761,7 @@
 							"default": true
 						}
 					},
-					"required": ["effect"],
-					"additionalProperties": false
+					"required": ["effect"]
 				},
 				"vector": {
 					"type":"object",

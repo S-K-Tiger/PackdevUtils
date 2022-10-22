@@ -113,8 +113,7 @@
 					"pattern": "\\{.*\\:.*\\}"
 				}
 			},
-			"required": ["item"],
-			"additionalProperties": false
+			"required": ["item"]
 		}
 	}
 }
