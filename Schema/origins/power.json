@@ -5443,9 +5443,13 @@
 			"then": {
 				"$comment": "We check for valid properties with `^[a-z0-9/._-]+$`.\nBecause we don't want to match properties already defined we add them to a negative lookahead `(?!)` directly after the start of the string.\nWe also put them in their own group so we can independently check for the end of the string to allow things like 'conditional' to match while 'condition' won't. `(?!(?:)$)`",
 				"patternProperties": {
+					"^\\$[a-z0-9/._-]+$": {
+						"description": "NOTE: For this power type (`origins:multiple`) remove meta attributes like this one when adding it to a datapack."
+					},
 					"^(?:type|name|description|hidden|condition|loading_priority|badges)$": true,
 					"^(?!(?:type|name|description|hidden|condition|loading_priority|badges)$)[a-z0-9/._-]+$": {"$ref": "#"}
-				}
+				},
+				"additionalProperties": false
 			}
 		},
 		{
